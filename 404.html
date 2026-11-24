@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>8 décembre, 12h</title>
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: #fff;
+      color: #111;
+    }
+    body {
+      font-family: Georgia, "Times New Roman", serif;
+    }
+    main {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem 1.25rem;
+      box-sizing: border-box;
+    }
+    h1 {
+      margin: 0 0 1.75rem;
+      font-weight: normal;
+      font-size: 1.35rem;
+    }
+    .row {
+      display: flex;
+      gap: 1.75rem;
+      font-variant-numeric: tabular-nums;
+    }
+    .unit strong {
+      display: block;
+      font-size: 2.75rem;
+      font-weight: normal;
+      line-height: 1;
+    }
+    .unit span {
+      display: block;
+      margin-top: 0.45rem;
+      font-family: system-ui, sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+    }
+    #done {
+      margin: 0;
+      font-size: 1.75rem;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>8 décembre, 12h</h1>
+    <div class="row" id="row">
+      <div class="unit"><strong id="d">–</strong><span>jours</span></div>
+      <div class="unit"><strong id="h">–</strong><span>heures</span></div>
+      <div class="unit"><strong id="m">–</strong><span>minutes</span></div>
+      <div class="unit"><strong id="s">–</strong><span>secondes</span></div>
+    </div>
+    <p id="done" hidden>C’est l’heure.</p>
+  </main>
+  <script>
+    var target = Date.parse("2026-12-08T12:00:00+01:00");
+
+    function pad(n) {
+      return n < 10 ? "0" + n : String(n);
+    }
+
+    function tick() {
+      var left = target - Date.now();
+      var row = document.getElementById("row");
+      var done = document.getElementById("done");
+      if (left <= 0) {
+        row.hidden = true;
+        done.hidden = false;
+        return;
+      }
+      var total = Math.floor(left / 1000);
+      document.getElementById("d").textContent = String(Math.floor(total / 86400));
+      document.getElementById("h").textContent = pad(Math.floor((total % 86400) / 3600));
+      document.getElementById("m").textContent = pad(Math.floor((total % 3600) / 60));
+      document.getElementById("s").textContent = pad(total % 60);
+    }
+
+    tick();
+    setInterval(tick, 250);
+  </script>
+</body>
+</html>
